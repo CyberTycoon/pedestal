@@ -1,7 +1,7 @@
 [project]
 name = "plinth-cli"
 version = "1.0.0"
-description = "A high-performance, developer-first CLI scaffolding tool for FastAPI"
+description = "Scaffold FastAPI projects in seconds, add features as you grow"
 readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.10"

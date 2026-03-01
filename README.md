@@ -1,130 +1,109 @@
 # 🪨 Plinth
 
-> A high-performance, developer-first CLI scaffolding tool for FastAPI
+> Stop building the "basement" of your FastAPI project.
 
-## Overview
+## The Problem
 
-Plinth is a dynamic CLI scaffolding engine for FastAPI that provides a rock-solid foundation for modern web APIs. Unlike static boilerplates, Plinth generates code based on your specific needs and allows you to evolve your project over time.
+Every new FastAPI project starts with the same 2-hour slog:
 
-## Features
+- Wiring up SQLAlchemy with async drivers
+- Setting up config management
+- Creating folder structures that won't become a mess
+- Adding auth... then rewriting it when you change your mind
 
-- 🚀 **Fast Project Initialization** - Create a new FastAPI project in seconds
-- 🔧 **Modular Architecture** - Add features (Auth, Redis, Database) as needed
-- 📝 **Type-Safe** - Built with Pydantic and Typer
-- 🎨 **Beautiful CLI** - Rich terminal output with progress bars
-- 🔒 **Safe Code Injection** - LibCST ensures safe AST modifications
-- 📦 **uv Integration** - Native support for fast Python package management
+**Boilerplate burnout is real.**
+
+## The Solution
+
+Plinth scaffolds production-ready FastAPI projects in **2 seconds**, then lets you add features incrementally without breaking your code.
+
+```bash
+# Start with exactly what you need
+plinth init my-api --db postgres --auth jwt
+
+# Change your mind later? No problem.
+plinth add redis
+plinth add auth-session
+```
+
+## Why Plinth?
+
+| Without Plinth                                | With Plinth                                    |
+| --------------------------------------------- | ---------------------------------------------- |
+| Copy-paste boilerplate from old projects      | Generate clean, consistent structure instantly |
+| Fear of adding features mid-project           | Add/remove modules anytime safely              |
+| Hope your code injection doesn't break things | AST-aware code modifications (LibCST)          |
+| Spend hours on setup                          | Spend hours on **features**                    |
 
 ## Installation
 
-### From Source
-
 ```bash
-# Clone the repository
-git clone <repository-url>
-cd plinth
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Install in development mode
-pip install -e .
+pip install plinth-cli
 ```
 
-### Using pip
+> **Note:** Package is `plinth-cli` on PyPI, command is `plinth`.
+
+## 10-Seconds to Production
 
 ```bash
-pip install plinth
-```
+# Create project
+plinth init my-app --db postgres
 
-## Quick Start
-
-### Create a Basic Project
-
-```bash
-plinth init my-app
+# Run it
 cd my-app
 uv run uvicorn src.main:app --reload
-```
 
-### Create with Database
-
-```bash
-plinth init my-api --db postgres --auth jwt --redis
-```
-
-### Add Features Later
-
-```bash
-cd my-api
-
-# Add Redis caching
-plinth add redis
-
-# Add JWT authentication
-plinth add auth-jwt
+# Open http://localhost:8000/docs
 ```
 
 ## Commands
 
-| Command                  | Description                          |
-| ------------------------ | ------------------------------------ |
-| `plinth init <name>`     | Initialize a new FastAPI project     |
-| `plinth add <module>`    | Add a feature module                 |
-| `plinth remove <module>` | Remove a feature module              |
-| `plinth list`            | List installed and available modules |
-| `plinth doctor`          | Run diagnostics on the project       |
+| Command                  | What it does                        |
+| ------------------------ | ----------------------------------- |
+| `plinth init <name>`     | Scaffold new project with options   |
+| `plinth add <module>`    | Add feature (redis, auth-jwt, etc.) |
+| `plinth remove <module>` | Remove feature cleanly              |
+| `plinth list`            | See installed/available modules     |
+| `plinth doctor`          | Check project health                |
 
 ## Available Modules
 
-- **postgres** - PostgreSQL database with asyncpg driver
-- **mysql** - MySQL database with aiomysql driver
-- **sqlite** - SQLite database with aiosqlite driver
-- **redis** - Redis caching and session storage
-- **auth-jwt** - JWT-based authentication
-- **auth-session** - Session-based authentication
+- **postgres/mysql/sqlite** - Database with async drivers
+- **redis** - Caching & sessions
+- **auth-jwt** - JWT authentication
+- **auth-session** - Session-based auth
+
+## How It Works
+
+Plinth doesn't just copy files—it **understands** your Python code using AST manipulation. When you run `plinth add redis`, it:
+
+1. Injects Redis connection code into your main app
+2. Updates `.env` with Redis URL
+3. Adds dependencies to `pyproject.toml`
+4. Registers routes without touching your custom code
+
+Your project stays clean, typed, and maintainable.
 
 ## Project Structure
 
 ```
 my-app/
-├── .plinth.json          # State tracking
+├── .plinth.json          # Tracks installed modules
 ├── pyproject.toml        # Dependencies
 ├── src/
-│   ├── main.py          # FastAPI entry point
+│   ├── main.py          # FastAPI entry
 │   ├── core/
-│   │   ├── config.py    # Settings
-│   │   └── registry.py  # Router registry
+│   │   ├── config.py    # Pydantic settings
+│   │   └── registry.py  # Auto-router registration
 │   └── api/
 │       └── v1/
-│           └── health.py
 └── tests/
-```
-
-## Development
-
-### Running Tests
-
-```bash
-pytest
-```
-
-### Code Quality
-
-```bash
-# Format code
-ruff format .
-
-# Lint code
-ruff check .
-
-# Type check
-mypy src/
 ```
 
 ## Documentation
 
-See the [complete guide](docs/plinth-complete-guide.md) for detailed documentation.
+- [Complete User Guide](docs/plinth-complete-guide.md)
+- [Developer Guide](docs/developer-guide.md)
 
 ## License
 

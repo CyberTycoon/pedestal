@@ -17,14 +17,16 @@ Plinth is a tool that creates FastAPI projects with the features you need. Inste
 ### Option 1: Install from PyPI (Recommended)
 
 ```bash
-pip install plinth
+pip install plinth-cli
 ```
 
 ### Option 2: Install with uv (Faster)
 
 ```bash
-uv tool install plinth
+uv tool install plinth-cli
 ```
+
+> **Note:** The package is named `plinth-cli` on PyPI, but the command remains `plinth`.
 
 ### Verify Installation
 
