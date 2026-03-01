@@ -1,0 +1,91 @@
+# {{ project_name }}
+
+A FastAPI application built with [Plinth](https://github.com/plinth-cli/plinth).
+
+## Quick Start
+
+```bash
+# Install dependencies
+uv sync
+
+# Run the development server
+uv run uvicorn src.main:app --reload
+```
+
+The API will be available at `http://localhost:8000`.
+
+## Project Structure
+
+```
+{{ project_name }}/
+├── src/
+│   ├── main.py              # FastAPI application entry point
+│   ├── core/
+│   │   ├── config.py        # Application settings
+│   │   └── registry.py      # Router registry
+│   ├── api/
+│   │   └── v1/
+│   │       └── health.py    # Health check endpoints
+│   └── models/              # Database models
+├── tests/                   # Test suite
+├── pyproject.toml           # Project dependencies
+└── .env                     # Environment variables (create from .env.example)
+```
+
+## Configuration
+
+Copy `.env.example` to `.env` and customize:
+
+```bash
+cp .env.example .env
+```
+
+## Features
+
+{% if db_type %}- **Database**: {{ db_type | title }} with {{ db_driver }}{% endif %}
+{% if use_redis %}- **Caching**: Redis integration{% endif %}
+{% if auth_type %}- **Authentication**: {{ auth_type | upper }}{% endif %}
+
+## API Documentation
+
+Once running, access the interactive API docs:
+
+- Swagger UI: `http://localhost:8000/docs`
+- ReDoc: `http://localhost:8000/redoc`
+
+## Development
+
+### Adding Features
+
+Use Plinth to add new features:
+
+```bash
+# Add Redis caching
+plinth add redis
+
+# Add authentication
+plinth add auth-jwt
+```
+
+### Running Tests
+
+```bash
+uv run pytest
+```
+
+### Code Quality
+
+```bash
+# Format code
+uv run ruff format .
+
+# Lint code
+uv run ruff check .
+
+# Type check
+uv run mypy src/
+```
+
+## License
+
+[Your License Here]

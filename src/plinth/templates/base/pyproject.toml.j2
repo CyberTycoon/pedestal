@@ -1,0 +1,49 @@
+[project]
+name = "{{ project_name }}"
+version = "0.1.0"
+description = "A FastAPI application built with Plinth"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.110.0",
+    "uvicorn[standard]>=0.29.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    {% if db_type %}
+    "sqlalchemy>=2.0.0",
+    {% if db_driver == "asyncpg" %}"asyncpg>=0.29.0",{% endif %}
+    {% if db_driver == "psycopg" %}"psycopg[binary]>=3.1.0",{% endif %}
+    {% if db_driver == "aiomysql" %}"aiomysql>=0.2.0",{% endif %}
+    {% if db_driver == "aiosqlite" %}"aiosqlite>=0.20.0",{% endif %}
+    "alembic>=1.13.0",
+    {% endif %}
+    {% if use_redis %}"redis[hiredis]>=5.0.0",{% endif %}
+    {% if auth_type == "jwt" %}"pyjwt>=2.8.0","passlib[bcrypt]>=1.7.4",{% endif %}
+    {% if auth_type == "session" %}"itsdangerous>=2.1.0","passlib[bcrypt]>=1.7.4",{% endif %}
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+{% if use_linting %}
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP", "B", "C4", "SIM"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+{% endif %}
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"

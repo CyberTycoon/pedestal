@@ -1,0 +1,30 @@
+[project]
+name = "plinth"
+version = "1.0.0"
+description = "A high-performance, developer-first CLI scaffolding tool for FastAPI"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "typer[all]>=0.12.0",
+    "jinja2>=3.1.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "libcst>=1.0.0",
+    "rich>=13.0.0",
+    "toml>=0.10.2",
+]
+
+[project.scripts]
+plinth = "plinth.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
