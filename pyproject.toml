@@ -1,5 +1,5 @@
 [project]
-name = "plinth"
+name = "plinth-cli"
 version = "1.0.0"
 description = "A high-performance, developer-first CLI scaffolding tool for FastAPI"
 readme = "README.md"
@@ -55,6 +55,9 @@ plinth = "plinth.cli:main"
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/plinth"]
 
 [tool.ruff]
 line-length = 100
